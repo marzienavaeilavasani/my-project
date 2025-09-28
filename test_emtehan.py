@@ -76,3 +76,10 @@ def test_visualizer_runs():
     vis = Visualizer()
     # Should not raise
     vis.plot(training_df, ideal_df, test_df)
+def test_find_best_fits():
+    train_df = pd.DataFrame({"X": [1,2], "A": [1,2], "B": [2,3]})
+    ideal_df = pd.DataFrame({"X": [1,2], "I1": [1,2], "I2": [2,3]})
+    selector = ModelSelector(train_df, ideal_df)
+    mapping = selector.find_best_fits()
+    print("Mapping found:", mapping)  # 👈 This will show only if you run pytest -s
+    assert mapping == {"A": "I1", "B": "I2"}

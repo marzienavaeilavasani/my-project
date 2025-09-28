@@ -3,14 +3,17 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
+
 def load_csv_files(folder):
-    """Load all CSV files in a folder into a dictionary {filename: dataframe}"""
+    import os
+    if not os.path.exists(folder):
+        raise FileNotFoundError(f"Folder does not exist: {folder}")
+
     csv_files = [f for f in os.listdir(folder) if f.lower().endswith('.csv')]
-    data = {}
-    for file in csv_files:
-        df = pd.read_csv(os.path.join(folder, file))
-        data[file] = df
-    return data
+    if not csv_files:
+        print(f"No CSV files found in {folder}")
+    return csv_files
+
 
 def compute_squared_error(train_df, ideal_df):
     """Compute sum of squared deviations for aligned X values"""
@@ -84,7 +87,9 @@ def visualize(training_data, selected_ideals, ideal_data, test_mapped):
 
 def main():
     # Update these paths according to your folder structure
-    training_folder = r"C:\C:\Users\Marzieh\PycharmProjects\PythonProject\training"
+    training_folder = r"C:\Users\Marzieh\PycharmProjects\PythonProject\training"
+    if not os.path.exists(training_folder):
+        raise FileNotFoundError(f"Training folder not found: {training_folder}")
     test_folder = r"C:\Users\Marzieh\PycharmProjects\PythonProject\test"
     ideal_folder = r"C:\Users\Marzieh\PycharmProjects\PythonProject\ideal"
 
